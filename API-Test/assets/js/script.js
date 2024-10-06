@@ -24,6 +24,7 @@ async function getStatus(e) {
   if (response.ok) {
     displayStatus(data);
   } else {
+    displayException(data);
     throw new Error(data.error);
   }
 }
@@ -65,6 +66,7 @@ async function postForm(e) {
   if (response.ok) {
     displayErrors(data);
   } else {
+    displayException(data);
     throw new Error(data.error);
   }
 }
@@ -108,4 +110,21 @@ function processOptions(form) {
   form.append("options", optArray.join());
 
   return form;
+}
+
+/**
+ * Display Exception function, sets up modal to display any exception that was thrown by an error
+ * @param {*} data 
+ */
+function displayException(data){
+
+    let heading = `An exception occurred`;
+
+    results = `<div>The API returned ${data.status_code}</div>`;
+    results += `<div>Error number: <strong>${data.error_no}</strong></div>`;
+    results += `<div>Error test: <strong>${data.error}</strong></div>`;
+
+    document.getElementById("resultsModalTitle").innerText = heading;
+    document.getElementById("results-content").innerHTML = results;
+    resultsModal.show();
 }
